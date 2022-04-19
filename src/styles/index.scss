@@ -1,0 +1,64 @@
+@use "./listItem.scss";
+
+:root {
+  --bg-color: "#efefef"
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  font-family: 'Open Sans', sans-serif;
+}
+
+#editableTitle {
+  text-align: center;
+  font-weight: bold;
+  text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+}
+
+#inputContainer {
+  display: flex;
+  flex-direction: column;
+  font-weight: normal;
+  gap: 10px;
+  margin: 10px;
+}
+
+#itemInput {
+  padding: 10px;
+  border: 1px solid #219EBC;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  line-height: 1rem;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  &::placeholder {
+    text-align: center;
+    opacity: .4;
+  }
+}
+
+#addItemBtn {
+  background-color: #219EBC;
+  border: 1px solid rgba(128, 128, 128, 0.288);
+  width: 50px;
+  height: 30px;
+  align-self: center;
+  border-radius: 10px;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+#listContainer {
+  margin: 25px 0px;
+}

@@ -1,0 +1,31 @@
+.list-item {
+  border: 2px solid #219EBC;
+  margin: 10px;
+  border-radius: 10px;
+  min-height: 35px;
+  // border-left: 0;
+  // border-right: 0;
+ & .itemCheckbox {
+  margin: 0 auto;
+  width: 1.2em;
+  height: 1.2em;
+  border-color: white;
+  
+ }
+}
+
+.itemCheckbox:hover, .item-label:hover {
+    cursor: pointer;
+}
+
+.item-label {
+  display: grid;
+  padding: 15px;
+  grid-template-columns: 1fr 19fr;
+  align-items: center;
+  justify-content: center;
+  column-gap: 20px;
+  font-weight: bold;
+  user-select: none;
+  
+}
