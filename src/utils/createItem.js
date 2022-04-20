@@ -1,8 +1,10 @@
 import generateID from './generateID';
+import removeItem from './removeItem';
+
 
 function createItem (text, itemsList) {
   if(text) {
-    itemsList.push({id: generateID(), text: text })
+    itemsList.push({id: generateID(), text: text.trim() })
     localStorage.setItem('allItems', JSON.stringify({items: itemsList}));
     updateListContent(itemsList, "todoList");
   } 
@@ -14,9 +16,22 @@ export function updateListContent (itemsList) {
   ul.innerHTML = '';
   for(let item of itemsList) {
     const li = document.createElement('li');
-    li.innerHTML = `<label id=item_${item.id} class='item-label'><input type='checkbox' class="itemCheckbox">${item.text}</label>`;
+    li.id = `item_${item.id}`
+    li.innerHTML = 
+    `<label class='item-label'>
+      <input type='checkbox' class="itemCheckbox">
+      <span>${item.text}</span>
+    </label>
+    <div class="fn-section">
+      <button id="removeBtn_${item.id}" class="remove-item-btn">
+        X
+      </Button>
+    </div>`;
     li.classList.add("list-item");
     ul.appendChild(li);
+    document.getElementById(`removeBtn_${item.id}`).addEventListener('click', el => {
+    removeItem(el.target.id, JSON.parse(localStorage.getItem('allItems')).items);
+  })
   };
 }
 

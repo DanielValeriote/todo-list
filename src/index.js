@@ -8,14 +8,11 @@ if(localStorage.allItems) {
   localStorage.setItem('allItems', JSON.stringify(allItems));
 } 
 
-document.addEventListener('DOMContentLoaded', ()=>updateListContent(allItems.items, "todoList"));
-
-document.getElementById('addItemBtn').addEventListener("click", () => {
-  main()
-});
-document.addEventListener("keyup", (e) => {
-  if(e.key === 'Enter') main()
+document.addEventListener('DOMContentLoaded', ()=> {
+  updateListContent(allItems.items, "todoList")
 })
+document.getElementById('addItemBtn').addEventListener("click", () => main());
+document.addEventListener('keyup', (e) => e.key === 'Enter' && main())
 
 function main() {
   const input = document.getElementById('itemInput')
