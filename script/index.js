@@ -46,10 +46,10 @@ function updateListContent () {
     </label>
     <div class='fn-section'>
       <button class='fn-btn'>
-        <img id="removeBtn_${item.id}" src='./assets/remove.png'/>
+        <img id="removeBtn_${item.id}" src='./img/remove.png'/>
       </Button>
       <button class='fn-btn'>
-        <img class='' id="editBtn_${item.id}" src='./assets/edit.png'/>
+        <img class='' id="editBtn_${item.id}" src='./img/edit.png'/>
       </Button>
     </div>`;
     li.classList.add('list-item');
@@ -58,7 +58,7 @@ function updateListContent () {
     removeItem(el.target.id, getList());
     });
     document.getElementById(`editBtn_${item.id}`).addEventListener('click', el => {
-    console.log(el.target.id)
+    editItem(el.target.id, getList());
     });
   };
 };
@@ -80,3 +80,19 @@ function removeItem(el, list) {
   list = list.filter(i=> id !== i.id);
   localStorage.setItem('allItems', JSON.stringify({items: list}));
 };
+
+function editItem(el, list) {
+  const id = el.split('_')[1];
+  let item = document.getElementById(`item_${id}`);
+  let itemToEditIndex;
+  item = list.filter((item, index)=> {
+    if(id === item.id) {
+      itemToEditIndex = index;
+      return true;
+    };
+  })[0];
+  let newText = window.prompt('Digite a tarefa já alterada:');
+  list[itemToEditIndex].text = newText.trim();
+  localStorage.setItem('allItems', JSON.stringify({items: list}));
+  updateListContent();
+}
