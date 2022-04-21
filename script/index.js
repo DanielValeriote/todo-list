@@ -1,14 +1,16 @@
 import createItem , { updateListContent } from './utils/createItem';
+import getList from './utils/getList';
 import './styles/index.scss';
 var allItems;
+
 if(localStorage.allItems) {
-  allItems = JSON.parse(localStorage.getItem('allItems'));
+  allItems = getList();
 } else {
   allItems = {items: Array()}
   localStorage.setItem('allItems', JSON.stringify(allItems));
 } 
 
-document.addEventListener('DOMContentLoaded', ()=> {
+document.addEventListener('DOMContentLoaded', () => {
   updateListContent(allItems.items, "todoList")
 })
 document.getElementById('addItemBtn').addEventListener("click", () => main());
