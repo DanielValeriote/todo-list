@@ -7,6 +7,7 @@ else {
 
 document.addEventListener('DOMContentLoaded', () => {
   updateListContent(allItems.items, "todoList");
+  setTitle(getTitle())
 });
 
 document.addEventListener('keyup', (e) => e.key === 'Enter' && submitItem());
@@ -95,4 +96,25 @@ function editItem(el, list) {
   list[itemToEditIndex].text = newText.trim();
   localStorage.setItem('allItems', JSON.stringify({items: list}));
   updateListContent();
+}
+
+// title changing and saving code ->
+
+function requireTitleChange () {
+  const newTitle = prompt('Digite o novo título:').trim();
+  if(newTitle) setTitle(newTitle);
+}
+
+function getTitle () {
+  if(localStorage.title)
+  setTitle(localStorage.getItem('title'));
+  else
+  localStorage.setItem('title', document.getElementById('editableTitle').innerText.trim());
+  
+}
+
+function setTitle(text) {
+  text = text.trim();
+  document.getElementById('editableTitle').innerText = text;
+  localStorage.setItem('title', text);
 }
