@@ -1,8 +1,9 @@
 let allItems;
-if(localStorage.allItems) allItems = getList()
+if(localStorage.allItems) allItems = getList();
 else {
-  allItems = {items: Array()}
-  setAllItems(allItems);
+  // allItems = {items: Array()}
+  // localStorage.setItem('AllItems', JSON.stringify())
+  setAllItems(Array())
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +15,7 @@ document.addEventListener('keyup', (e) => e.key === 'Enter' && submitItem());
 
 function submitItem() {
   const input = document.getElementById('itemInput');
-  createItem(input.value, allItems.items);
+  createItem(input.value);
   input.value = '';
 };
 
