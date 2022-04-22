@@ -6,7 +6,7 @@ else {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  updateListContent(allItems.items, "todoList");
+  updateListContent();
   setTitle(getTitle())
 });
 
@@ -28,7 +28,7 @@ function createItem (text) {
   if(text) {
     itemsList.push({id: generateID(), text: text.trim(), checked: 0});
     localStorage.setItem('allItems', JSON.stringify({items: itemsList}));
-    updateListContent('todoList');
+    updateListContent();
   } 
   else alert('Um item vazio não pode ser adicionado.');
 }
@@ -94,7 +94,7 @@ function removeItem(id, list) {
   const item = document.getElementById(`item_${id}`);
   item.remove();
   list = list.filter(i=> id !== i.id);
-  localStorage.setItem('allItems', JSON.stringify({items: list}));
+  setAllItems(list);
 };
 
 function editItem(id, list) {
@@ -102,7 +102,7 @@ function editItem(id, list) {
   let newText = window.prompt('Digite a tarefa já alterada:');
   if(newText) {
     list[itemIndex].text = newText.trim();
-    localStorage.setItem('allItems', JSON.stringify({items: list}));
+    setAllItems(list)
     updateListContent();
   }
 }
@@ -142,11 +142,11 @@ function toggleChecked (id, isChecked) {
     itemElement.style.color = 'white';
     newList[itemIndex].checked = 0;
   }
-  setAllItems({items: newList});
+  setAllItems(newList);
 }
 
 function setAllItems(obj) {
-  localStorage.setItem('allItems', JSON.stringify(obj))
+  localStorage.setItem('allItems', JSON.stringify({items: obj}))
 }
 
 // item movement;
@@ -156,20 +156,19 @@ function moveItem(id, direction) {
   let itemIndex = getItemIndex(id);
   function changeIndex(list, from, to) {
     if(to < 0 || to === list.length) return
-    const removed = list.splice(from, 1)[0];
-    console.log({removed, list})
-    list = list.splice(to, 0)
+    list.splice(to, 0, list.splice(from, 1)[0])
     setAllItems(list)
   }
   const movements = {
     up: () => {
-      // changeIndex(list, itemIndex, itemIndex-1)
+      changeIndex(list, itemIndex, itemIndex-1)
     },
     down: () => {
-      // changeIndex(list, itemIndex, itemIndex+1)
+      changeIndex(list, itemIndex, itemIndex+1)
     }
   }
   movements[direction]();
+  updateListContent()
 }
 
 function getItemIndex(id) {
