@@ -1,6 +1,7 @@
 :root {
   --bg-color: "#e1e1e1";
   --main-color: #219EBC;
+  --checked-color: green;
 }
 
 * {
@@ -30,6 +31,7 @@ body {
   text-align: center;
   font-weight: bold;
   text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+  cursor: text;
 }
 
 #inputContainer {
@@ -78,7 +80,7 @@ body {
 
 .list-item {
   display: grid;
-  grid-template-columns: 10fr 1fr;
+  grid-template-columns: 7fr 1fr;
   gap: 15px;
   border: 2px solid var(--main-color);
   margin: 10px;
@@ -113,17 +115,40 @@ body {
   max-width: 100%;
   line-break: auto;
   word-break: break-word;
+  text-transform: capitalize;
+}
+
+.remove-btn {
+  grid-area: remove;
+}
+
+.edit-btn {
+  grid-area: edit;
+}
+
+.downward-btn {
+  grid-area: downward;
+  opacity: .7;
+}
+
+.upward-btn {
+  grid-area: upward;
+  opacity: .7;
 }
 
 .fn-section {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
-  column-gap: 25px;
+  gap: 5px 12px;
   background-color: var(--main-color);
-  padding-top: 5px;
   flex-direction: column;
   height: 100%;
+  grid-template: 
+  'remove upward' auto
+  'edit downward' auto
+  / 24px 24px;
+  padding: 5px 0px 5px 5px;
 }
 
 .fn-btn {
@@ -131,6 +156,8 @@ body {
   background-color: transparent;
   border: 0;
   font-weight: bold;
+  width: 24px;
+  height: 24px;
 }
 
 .fn-btn:hover {
