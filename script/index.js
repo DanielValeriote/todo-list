@@ -2,8 +2,8 @@ let allItems;
 if(localStorage.allItems) allItems = getList()
 else {
   allItems = {items: Array()}
-  localStorage.setItem('allItems', JSON.stringify(allItems));
-}
+  setAllItems(allItems);
+};
 
 document.addEventListener('DOMContentLoaded', () => {
   updateListContent();
@@ -16,22 +16,22 @@ function submitItem() {
   const input = document.getElementById('itemInput');
   createItem(input.value, allItems.items);
   input.value = '';
-}
+};
 
 function getList(){
   let items = JSON.parse(localStorage.getItem('allItems')).items;
   return items ? items : new Array();
-}
+};
 
 function createItem (text) {
   const itemsList = getList();
   if(text) {
     itemsList.push({id: generateID(), text: text.trim(), checked: 0});
-    localStorage.setItem('allItems', JSON.stringify({items: itemsList}));
+    setAllItems(itemsList);
     updateListContent();
   } 
   else alert('Um item vazio não pode ser adicionado.');
-}
+};
 
 function updateListContent () {
   const itemsList = getList();
@@ -61,10 +61,10 @@ function updateListContent () {
     </div>`;
     li.classList.add('list-item');
     ul.appendChild(li);
-    const id = item.id
+    const id = item.id;
     document.getElementById(`checkBox_${item.id}`).addEventListener('change', (el) => {
       toggleChecked(id, el.target.checked)
-    })
+    });
     document.getElementById(`removeBtn_${item.id}`).addEventListener('click', () => {
       removeItem(id, getList());
     });
@@ -81,7 +81,7 @@ function updateListContent () {
 };
 
 function generateID(IDLength=8) {
-  let id = ""
+  let id = "";
   for(let i=0;i<IDLength;i++) id += getRandomNumber();
   return id.toString().trim();
 };
@@ -89,6 +89,12 @@ function generateID(IDLength=8) {
 function getRandomNumber () {
   return Math.floor(Math.random() * 9);
 };
+
+function getItemIndex(id) {
+  let itemIndex;
+  getList().forEach((item, index) => item.id === id && (itemIndex = index));
+  return itemIndex;
+}
 
 function removeItem(id, list) {
   const item = document.getElementById(`item_${id}`);
@@ -102,7 +108,7 @@ function editItem(id, list) {
   let newText = window.prompt('Digite a tarefa já alterada:',list[itemIndex].text);
   if(newText) {
     list[itemIndex].text = newText.trim();
-    setAllItems(list)
+    setAllItems(list);
     updateListContent();
   }
 }
@@ -146,19 +152,19 @@ function toggleChecked (id, isChecked) {
 }
 
 function setAllItems(obj) {
-  localStorage.setItem('allItems', JSON.stringify({items: obj}))
-}
+  localStorage.setItem('allItems', JSON.stringify({items: obj}));
+};
 
-// item movement;
+// Moving items code ->
 
 function moveItem(id, direction) {
   const list = getList();
   let itemIndex = getItemIndex(id);
   function changeIndex(list, from, to) {
-    if(to < 0 || to === list.length) return
-    list.splice(to, 0, list.splice(from, 1)[0])
-    setAllItems(list)
-  }
+    if(to < 0 || to === list.length) return;
+    list.splice(to, 0, list.splice(from, 1)[0]);
+    setAllItems(list);
+  };
   const movements = {
     up: () => {
       changeIndex(list, itemIndex, itemIndex-1)
@@ -166,13 +172,7 @@ function moveItem(id, direction) {
     down: () => {
       changeIndex(list, itemIndex, itemIndex+1)
     }
-  }
+  };
   movements[direction]();
-  updateListContent()
-}
-
-function getItemIndex(id) {
-  let itemIndex;
-  getList().forEach((item, index) => item.id === id && (itemIndex = index))
-  return itemIndex;
+  updateListContent();
 }
