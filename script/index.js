@@ -99,7 +99,7 @@ function removeItem(id, list) {
 
 function editItem(id, list) {
   let itemIndex = getItemIndex(id);
-  let newText = window.prompt('Digite a tarefa já alterada:');
+  let newText = window.prompt('Digite a tarefa já alterada:',list[itemIndex].text);
   if(newText) {
     list[itemIndex].text = newText.trim();
     setAllItems(list)
@@ -110,7 +110,7 @@ function editItem(id, list) {
 // title changing and saving code ->
 
 function requireTitleChange () {
-  const newTitle = prompt('Digite o novo título:');
+  const newTitle = prompt('Digite o novo título:', document.getElementById('editableTitle').innerText);
   if(newTitle) setTitle(newTitle.trim());
 }
 
