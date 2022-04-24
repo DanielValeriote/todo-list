@@ -1,8 +1,6 @@
 let allItems;
 if(localStorage.allItems) allItems = getList();
 else {
-  // allItems = {items: Array()}
-  // localStorage.setItem('AllItems', JSON.stringify())
   setAllItems(Array())
 };
 
