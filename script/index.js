@@ -9,6 +9,21 @@ document.addEventListener('DOMContentLoaded', () => {
   setTitle(getTitle())
 });
 
+document.getElementById('todoList').addEventListener("click", (e) => {
+  const datasetKeys = Object.keys(e.target.dataset); 
+  const methods = {
+    edit: id => editItem(id),
+    remove: id => removeItem(id),
+    moveup: id => moveItem(id, 'up'),
+    movedown: id => moveItem(id, 'down'),
+    togglecheck: id => toggleChecked(id, e.target.checked)
+  }
+  if(datasetKeys.length > 0) {
+    const id = e.target.dataset[datasetKeys[0]]
+    methods[datasetKeys[0]](id)
+  } 
+})
+
 document.addEventListener('keyup', (e) => e.key === 'Enter' && submitItem());
 
 function submitItem() {
@@ -41,52 +56,36 @@ function updateListContent () {
     li.id = `item_${item.id}`;
     li.innerHTML = 
     `<label class='item-label'>
-      <input type='checkbox' ${item.checked ? 'checked' : ''} id='checkBox_${item.id}' class='itemCheckbox'>
-      <span class='item-text' style='color: ${item.checked ? 'green' : 'white'}'>${item.text}</span>
+      <input type='checkbox' data-togglecheck='${item.id}' ${item.checked ? 'checked' : ''} class='itemCheckbox'>
+      <span class='item-text' style='color: ${item.checked ? 'var(--checked-color)' : 'white'}'>${item.text}</span>
     </label>
     <div class='fn-section'>
       <button class='fn-btn remove-btn'>
-        <img id="removeBtn_${item.id}" src='./img/remove.png'/>
+        <img data-remove='${item.id}' src='./img/remove.png'/>
       </Button>
       <button class='fn-btn edit-btn'>
-        <img id="editBtn_${item.id}" src='./img/edit.png'/>
+        <img data-edit='${item.id}' src='./img/edit.png'/>
       </Button>
       <button class='fn-btn upward-btn'>
-        <img id="upwardBtn_${item.id}" src='./img/up-arrow.png'/>
+        <img data-moveup='${item.id}' src='./img/up-arrow.png'/>
       </Button>
       <button class='fn-btn downward-btn'>
-        <img id="downwardBtn_${item.id}" src='./img/down-arrow.png'/>
+        <img data-movedown='${item.id}' src='./img/down-arrow.png'/>
       </Button>
     </div>`;
     li.classList.add('list-item');
     ul.appendChild(li);
-    const id = item.id;
-    document.getElementById(`checkBox_${item.id}`).addEventListener('change', (el) => {
-      toggleChecked(id, el.target.checked)
-    });
-    document.getElementById(`removeBtn_${item.id}`).addEventListener('click', () => {
-      removeItem(id, getList());
-    });
-    document.getElementById(`upwardBtn_${item.id}`).addEventListener('click', () => {
-      moveItem(id, 'up');
-    });
-    document.getElementById(`downwardBtn_${item.id}`).addEventListener('click', () => {
-      moveItem(id, 'down');
-    });
-    document.getElementById(`editBtn_${item.id}`).addEventListener('click', () => {
-      editItem(id, getList());
-    });
   };
 };
 
 function generateID(IDLength=8) {
   let id = "";
-  for(let i=0;i<IDLength;i++) id += getRandomNumber();
+  for(let i=0;i<IDLength;i++) id += getRandomNumber(9);
   return id.toString().trim();
 };
 
-function getRandomNumber () {
-  return Math.floor(Math.random() * 9);
+function getRandomNumber (max) {
+  return Math.floor(Math.random() * max);
 };
 
 function getItemIndex(id) {
@@ -95,14 +94,13 @@ function getItemIndex(id) {
   return itemIndex;
 }
 
-function removeItem(id, list) {
-  const item = document.getElementById(`item_${id}`);
-  item.remove();
+function removeItem(id, list=getList()) {
+  const item = document.getElementById(`item_${id}`).remove();
   list = list.filter(i=> id !== i.id);
   setAllItems(list);
 };
 
-function editItem(id, list) {
+function editItem(id, list=getList()) {
   let itemIndex = getItemIndex(id);
   let newText = window.prompt('Digite a tarefa já alterada:',list[itemIndex].text);
   if(newText) {
@@ -134,14 +132,12 @@ function setTitle(text) {
   }
 }
 
-function toggleChecked (id, isChecked) {
+function toggleChecked (id, isChecked, newList=getList()) {
   const itemElement = document.querySelector(`#item_${id} .item-text`);
-  const newList = getList();
-  let newColor = 'var(--checked-color)';
   let itemIndex = getItemIndex(id);
 
   if(isChecked) {
-    itemElement.style.color = newColor;
+    itemElement.style.color = 'var(--checked-color)';
     newList[itemIndex].checked = 1;
   } else {
     itemElement.style.color = 'white';
@@ -156,8 +152,7 @@ function setAllItems(obj) {
 
 // Moving items code ->
 
-function moveItem(id, direction) {
-  const list = getList();
+function moveItem(id, direction, list=getList()) {
   let itemIndex = getItemIndex(id);
   function changeIndex(list, from, to) {
     if(to < 0 || to === list.length) return;
@@ -165,12 +160,8 @@ function moveItem(id, direction) {
     setAllItems(list);
   };
   const movements = {
-    up: () => {
-      changeIndex(list, itemIndex, itemIndex-1)
-    },
-    down: () => {
-      changeIndex(list, itemIndex, itemIndex+1)
-    }
+    up: () => changeIndex(list, itemIndex, itemIndex-1),
+    down: () => changeIndex(list, itemIndex, itemIndex+1)
   };
   movements[direction]();
   updateListContent();
