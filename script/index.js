@@ -1,12 +1,10 @@
 let allItems;
 if(localStorage.allItems) allItems = getList();
-else {
-  setAllItems(Array())
-};
-
+else setAllItems(Array());
 document.addEventListener('DOMContentLoaded', () => {
+  setColors(getColors())
   updateListContent();
-  setTitle(getTitle())
+  setTitle(getTitle());
 });
 
 document.getElementById('todoList').addEventListener("click", (e) => {
@@ -25,6 +23,7 @@ document.getElementById('todoList').addEventListener("click", (e) => {
 })
 
 document.addEventListener('keyup', (e) => e.key === 'Enter' && submitItem());
+document.getElementById('colorInput').addEventListener('input', handleColorChange);
 
 function submitItem() {
   const input = document.getElementById('itemInput');
@@ -110,6 +109,10 @@ function editItem(id, list=getList()) {
   }
 }
 
+function setAllItems(obj) {
+  localStorage.setItem('allItems', JSON.stringify({items: obj}));
+};
+
 // title changing and saving code ->
 
 function requireTitleChange () {
@@ -146,9 +149,22 @@ function toggleChecked (id, isChecked, newList=getList()) {
   setAllItems(newList);
 }
 
-function setAllItems(obj) {
-  localStorage.setItem('allItems', JSON.stringify({items: obj}));
-};
+// color changing and saving code ->
+
+function handleColorChange() {
+  setColors({checkedColor: this.value})
+}
+
+function getColors() {
+  if(localStorage.colors) return JSON.parse(localStorage.getItem('colors'))
+  return {checkedColor: '#008000'}
+}
+
+function setColors(obj) {
+  document.documentElement.style.setProperty('--checked-color', obj.checkedColor);
+  localStorage.setItem('colors', JSON.stringify(obj))
+  document.getElementById('colorInput').value = obj.checkedColor
+}
 
 // Moving items code ->
 
