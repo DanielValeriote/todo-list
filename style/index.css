@@ -31,6 +31,15 @@ footer label {
   font-weight: bold;
 }
 
+footer * {
+  opacity: .2;
+}
+
+footer:hover * {
+  opacity: 1;
+  cursor: pointer;
+}
+
 abbr {
   text-decoration: none;
 }
