@@ -38,12 +38,10 @@ function getList(){
 
 function createItem (text) {
   const itemsList = getList();
-  if(text) {
-    itemsList.push({id: generateID(), text: text.trim(), checked: 0});
-    setAllItems(itemsList);
-    updateListContent();
-  } 
-  else alert('Um item vazio não pode ser adicionado.');
+  if(!text) return alert('Um item vazio não pode ser adicionado.');
+  itemsList.push({id: generateID(), text: text.trim(), checked: 0});
+  setAllItems(itemsList);
+  updateListContent();
 };
 
 function updateListContent () {
@@ -128,11 +126,10 @@ function getTitle () {
 }
 
 function setTitle(text) {
-  if(text) {
-    text = text.trim();
-    document.getElementById('editableTitle').innerText = text;
-    localStorage.setItem('title', text);
-  }
+  if(!text) return 
+  text = text.trim();
+  document.getElementById('editableTitle').innerText = text;
+  localStorage.setItem('title', text);
 }
 
 function toggleChecked (id, isChecked, newList=getList()) {
