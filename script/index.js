@@ -179,3 +179,8 @@ function moveItem(id, direction, list=getList()) {
   movements[direction]();
   updateListContent();
 }
+
+function toggleSettingsMenu () {
+  const menu = document.querySelector('.settings-menu');
+  menu.classList.toggle('openMenu');
+}

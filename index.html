@@ -30,8 +30,17 @@
   </main>
   </div>
   <footer>
-    <label for="colorInput">Cor de marcação: </label>
-    <input type="color" value="#008000" id="colorInput">
+    <abbr title="Configurações">
+      <button class="toggle-settings-btn" onclick="toggleSettingsMenu()">
+        <img src="./img/gear-icon.svg" alt="settings">
+      </button>
+    </abbr>
+    <div class="settings-menu">
+      <div class="color-input-container">
+        <label for="colorInput">Cor de marcação: &nbsp;</label>
+        <input type="color" value="#008000" id="colorInput">
+      </div>
+    </div>
   </footer>
 </body>
 <script src="./script/index.js"></script>

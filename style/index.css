@@ -18,28 +18,6 @@ body {
   color: white;
 }
 
-footer {
-  height: 10vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
-
-footer label {
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-footer * {
-  opacity: .2;
-}
-
-footer:hover * {
-  opacity: 1;
-  cursor: pointer;
-}
-
 abbr {
   text-decoration: none;
 }
@@ -190,5 +168,59 @@ abbr {
 }
 
 .fn-btn:hover {
+  cursor: pointer;
+}
+
+footer {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0px;
+}
+
+.settings-menu {
+  display: none;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  transition: all .5s ease-in-out;
+  z-index: 100;
+}
+
+.openMenu {
+  display: flex;
+  opacity: 1;
+}
+
+.color-input-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-input-container label {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.toggle-settings-btn {
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+}
+.toggle-settings-btn img {
+  width: 20px;
+  height: 20px;
+  opacity: .3;
+}
+.toggle-settings-btn img:hover {
+  width: 25px;
+  height: 25px;
+  transition: all .2s ease;
+  opacity: 1;
   cursor: pointer;
 }
