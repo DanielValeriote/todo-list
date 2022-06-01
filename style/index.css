@@ -122,7 +122,6 @@ abbr {
   max-width: 100%;
   line-break: auto;
   word-break: break-word;
-  text-transform: capitalize;
 }
 
 .remove-btn {
