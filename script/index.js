@@ -2,7 +2,7 @@ let allItems;
 if(localStorage.allItems) allItems = getList();
 else setAllItems(Array());
 document.addEventListener('DOMContentLoaded', () => {
-  setColors(getColors())
+  setColors(getColors());
   updateListContent();
   setTitle(getTitle());
 });
@@ -14,11 +14,11 @@ document.getElementById('todoList').addEventListener("click", (e) => {
     remove: id => removeItem(id),
     moveup: id => moveItem(id, 'up'),
     movedown: id => moveItem(id, 'down'),
-    togglecheck: id => toggleChecked(id, e.target.checked)
+    togglecheck: id => toggleChecked(id, e.target.checked),
   }
   if(datasetKeys.length > 0) {
-    const id = e.target.dataset[datasetKeys[0]]
-    methods[datasetKeys[0]](id)
+    const id = e.target.dataset[datasetKeys[0]];
+    methods[datasetKeys[0]](id);
   } 
 })
 
@@ -70,7 +70,6 @@ function updateListContent () {
         <img data-movedown='${item.id}' src='./img/down-arrow.png'/>
       </Button>
     </div>`;
-    li.classList.add('list-item');
     ul.appendChild(li);
   };
 };
@@ -92,7 +91,7 @@ function getItemIndex(id) {
 }
 
 function removeItem(id, list=getList()) {
-  const item = document.getElementById(`item_${id}`).remove();
+  document.getElementById(`item_${id}`).remove();
   list = list.filter(i=> id !== i.id);
   setAllItems(list);
 };
@@ -149,18 +148,18 @@ function toggleChecked (id, isChecked, newList=getList()) {
 // color changing and saving code ->
 
 function handleColorChange() {
-  setColors({checkedColor: this.value})
+  setColors({checkedColor: this.value});
 }
 
 function getColors() {
-  if(localStorage.colors) return JSON.parse(localStorage.getItem('colors'))
-  return {checkedColor: '#008000'}
+  if(localStorage.colors) return JSON.parse(localStorage.getItem('colors'));
+  return {checkedColor: '#008000'};
 }
 
 function setColors(obj) {
   document.documentElement.style.setProperty('--checked-color', obj.checkedColor);
-  localStorage.setItem('colors', JSON.stringify(obj))
-  document.getElementById('colorInput').value = obj.checkedColor
+  localStorage.setItem('colors', JSON.stringify(obj));
+  document.getElementById('colorInput').value = obj.checkedColor;
 }
 
 // Moving items code ->
@@ -181,6 +180,5 @@ function moveItem(id, direction, list=getList()) {
 }
 
 function toggleSettingsMenu () {
-  const menu = document.querySelector('.settings-menu');
-  menu.classList.toggle('openMenu');
+  document.querySelector('.settings-menu').classList.toggle('openMenu');
 }

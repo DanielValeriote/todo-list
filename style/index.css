@@ -84,7 +84,7 @@ abbr {
   margin: 25px 0px;
 }
 
-.list-item {
+#todoList li {
   display: grid;
   grid-template-columns: 7fr 1fr;
   gap: 15px;
