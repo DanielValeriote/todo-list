@@ -1,6 +1,7 @@
 let allItems;
 if(localStorage.allItems) allItems = getList();
 else setAllItems(Array());
+
 document.addEventListener('DOMContentLoaded', () => {
   setColors(getColors());
   updateListContent();
@@ -85,9 +86,7 @@ function getRandomNumber (max) {
 };
 
 function getItemIndex(id) {
-  let itemIndex;
-  getList().forEach((item, index) => item.id === id && (itemIndex = index));
-  return itemIndex;
+  return getList().findIndex(i => i.id === id);
 }
 
 function removeItem(id, list=getList()) {
