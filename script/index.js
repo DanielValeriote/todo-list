@@ -2,6 +2,14 @@ let allItems;
 if (localStorage.allItems) allItems = getList();
 else setAllItems(Array());
 
+class TodoItem {
+  constructor(text) {
+    this.id = generateID();
+    this.text = text.trim();
+    this.checked = 0;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   setColors(getColors());
   updateListContent();
@@ -42,7 +50,7 @@ function getList() {
 function createItem(text) {
   const itemsList = getList();
   if (!text) return alert("Um item vazio não pode ser adicionado.");
-  itemsList.push({ id: generateID(), text: text.trim(), checked: 0 });
+  itemsList.push(new TodoItem(text));
   setAllItems(itemsList);
   updateListContent();
 }
